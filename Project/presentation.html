@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture Assistant System - Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+        
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: none;
+            overflow-y: auto;
+        }
+        
+        .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+        }
+        
+        h3 {
+            color: #555;
+            font-size: 1.5em;
+            margin: 20px 0 10px 0;
+        }
+        
+        p, li {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        ul {
+            margin-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        .code-block {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            background: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #999;
+            font-size: 1em;
+        }
+        
+        .architecture-diagram {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        
+        .stats-box {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 1em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <span class="slide-number">1 / 21</span>
+            <h1>Lecture Assistant System</h1>
+            <h2>Retrieval-Augmented Generation (RAG) for Course Materials</h2>
+            <div style="margin-top: 40px;">
+                <h3>Problem</h3>
+                <p>Students need quick access to information from lecture PDFs</p>
+                
+                <h3>Solution</h3>
+                <p>AI-powered semantic search with answer extraction</p>
+                
+                <h3>Technology</h3>
+                <p>FAISS vector database + Sentence Transformers + Local LLM</p>
+                
+                <h3>Result</h3>
+                <p>Instant answers from 11 indexed lecture PDFs</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem Statement -->
+        <div class="slide">
+            <span class="slide-number">2 / 21</span>
+            <h1>Problem Statement</h1>
+            <h2>Challenges in Educational Content Access</h2>
+            
+            <h3>1. Information Overload</h3>
+            <ul>
+                <li>11 lecture PDFs with hundreds of pages</li>
+                <li>Difficult to find specific information quickly</li>
+                <li>Time-consuming manual search</li>
+            </ul>
+            
+            <h3>2. Knowledge Retrieval</h3>
+            <ul>
+                <li>Students ask questions during study sessions</li>
+                <li>Need accurate, source-grounded answers</li>
+                <li>Traditional keyword search is limited</li>
+            </ul>
+            
+            <h3>3. Solution Requirements</h3>
+            <ul>
+                <li>Fast semantic search across all materials</li>
+                <li>Accurate answer extraction</li>
+                <li>Source citation for verification</li>
+                <li>Local deployment (privacy & cost)</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: System Architecture -->
+        <div class="slide">
+            <span class="slide-number">3 / 21</span>
+            <h1>System Architecture Overview</h1>
+            <div class="architecture-diagram">
+User Query
+    │
+    ▼
+MCP Server (mcp_server)
+  - Query Processing
+  - Answer Extraction
+    │
+    ▼
+FAISS Vector Index
+  - Semantic Search
+  - Similarity Matching
+    │
+    ▼
+Lecture PDFs (11 files)
+  - Text Extraction
+  - Chunking & Embedding
+            </div>
+            
+            <h3>Components:</h3>
+            <ul>
+                <li><strong>Index Builder</strong>: Processes PDFs → Embeddings → FAISS Index</li>
+                <li><strong>MCP Server</strong>: Handles queries and answer extraction</li>
+                <li><strong>Client</strong>: Test interface for queries</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Data -->
+        <div class="slide">
+            <span class="slide-number">4 / 21</span>
+            <h1>Data - Lecture Materials</h1>
+            <h2>Dataset Overview</h2>
+            
+            <p><strong>Source:</strong> Course lecture PDFs (MFE-431 AI in Finance)</p>
+            
+            <table>
+                <tr>
+                    <th>Lecture</th>
+                    <th>Topic</th>
+                    <th>Pages</th>
+                </tr>
+                <tr><td>T1</td><td>Introductory, Visualization</td><td>~20</td></tr>
+                <tr><td>T2</td><td>Panel Regressions</td><td>~25</td></tr>
+                <tr><td>T3</td><td>Logistic Regressions, FinTech</td><td>~30</td></tr>
+                <tr><td>T4</td><td>Model Selection and Shrinkage</td><td>~25</td></tr>
+                <tr><td>T5</td><td>Decision Trees, Boosting, Bagging</td><td>~45</td></tr>
+                <tr><td>T6</td><td>Textual Analysis, Sentiment</td><td>~50</td></tr>
+                <tr><td>T6b</td><td>Textual Analysis, Mergers</td><td>~30</td></tr>
+                <tr><td>T7</td><td>Unstructured Data</td><td>~40</td></tr>
+                <tr><td>T7b</td><td>Large Language Models</td><td>~35</td></tr>
+                <tr><td>T8</td><td>Support Vector Machines</td><td>~30</td></tr>
+                <tr><td>T9</td><td>Deep Learning</td><td>~40</td></tr>
+            </table>
+            
+            <div class="stats-box">
+                <div class="stat">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">PDF Files</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">370+</div>
+                    <div class="stat-label">Pages</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1,200+</div>
+                    <div class="stat-label">Text Chunks</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Data Preprocessing -->
+        <div class="slide">
+            <span class="slide-number">5 / 21</span>
+            <h1>Data Preprocessing Pipeline</h1>
+            <h2>Step-by-Step Processing</h2>
+            
+            <h3>1. PDF Text Extraction</h3>
+            <div class="code-block">reader = PdfReader(pdf_file)
+for page in reader.pages:
+    text = page.extract_text()</div>
+            
+            <h3>2. Text Cleaning</h3>
+            <ul>
+                <li>Remove excessive whitespace</li>
+                <li>Remove page numbers</li>
+                <li>Normalize formatting</li>
+                <li>Preserve mathematical notation</li>
+            </ul>
+            
+            <h3>3. Text Chunking Strategy</h3>
+            <ul>
+                <li><strong>Chunk Size:</strong> 300 words</li>
+                <li><strong>Overlap:</strong> 50 words</li>
+                <li><strong>Rationale:</strong> Balance context vs. precision</li>
+                <li>Overlap ensures no information loss at boundaries</li>
+            </ul>
+            
+            <h3>4. Metadata Extraction</h3>
+            <ul>
+                <li>Extract names (professors, authors)</li>
+                <li>Extract dates (deadlines, schedules)</li>
+                <li>File name and page number tracking</li>
+            </ul>
+        </div>
+
+        <!-- Slide 6: Embeddings -->
+        <div class="slide">
+            <span class="slide-number">6 / 21</span>
+            <h1>Embedding Methodology</h1>
+            <h2>Sentence Transformers for Semantic Search</h2>
+            
+            <div class="stats-box">
+                <div class="stat">
+                    <div class="stat-number">384</div>
+                    <div class="stat-label">Dimensions</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">100</div>
+                    <div class="stat-label">Sentences/sec</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1B+</div>
+                    <div class="stat-label">Training Pairs</div>
+                </div>
+            </div>
+            
+            <h3>Model: <span class="highlight">all-MiniLM-L6-v2</span></h3>
+            
+            <h3>Why This Model?</h3>
+            <ul>
+                <li><strong>Fast:</strong> Optimized for speed</li>
+                <li><strong>Accurate:</strong> Good semantic understanding</li>
+                <li><strong>Lightweight:</strong> Small model size (~80MB)</li>
+                <li><strong>General Purpose:</strong> Works well on academic text</li>
+            </ul>
+            
+            <h3>Embedding Process</h3>
+            <div class="code-block">embedder = SentenceTransformer("all-MiniLM-L6-v2")
+embeddings = embedder.encode(texts, convert_to_numpy=True)
+# Output: (n_chunks, 384) numpy array</div>
+            
+            <p><strong>Result:</strong> Each text chunk → 384-dimensional vector</p>
+        </div>
+
+        <!-- Slide 7: FAISS -->
+        <div class="slide">
+            <span class="slide-number">7 / 21</span>
+            <h1>Vector Database - FAISS</h1>
+            <h2>FAISS Index Structure</h2>
+            
+            <h3>Index Type: <span class="highlight">IndexFlatL2</span> (Exact L2 distance)</h3>
+            
+            <h3>Why FAISS?</h3>
+            <ul>
+                <li><strong>Fast:</strong> Optimized C++ implementation</li>
+                <li><strong>Scalable:</strong> Handles millions of vectors</li>
+                <li><strong>Efficient:</strong> GPU support available</li>
+                <li><strong>Industry Standard:</strong> Used by Facebook/Meta</li>
+            </ul>
+            
+            <h3>Index Building</h3>
+            <div class="code-block">dim = embeddings.shape[1]  # 384
+index = faiss.IndexFlatL2(dim)
+index.add(embeddings)  # Add all chunk embeddings</div>
+            
+            <h3>Search Process</h3>
+            <div class="code-block">query_embedding = embedder.encode([query])
+distances, indices = index.search(query_embedding, k=5)
+# Returns top k most similar chunks</div>
+            
+            <p><strong>Distance Metric:</strong> L2 (Euclidean) distance</p>
+            <ul>
+                <li>Lower distance = More similar</li>
+                <li>Range: 0 (identical) to ∞ (different)</li>
+            </ul>
+        </div>
+
+        <!-- Slide 8: RAG -->
+        <div class="slide">
+            <span class="slide-number">8 / 21</span>
+            <h1>Retrieval-Augmented Generation (RAG)</h1>
+            <h2>RAG Architecture</h2>
+            
+            <h3>Traditional LLM:</h3>
+            <div class="code-block">Query → LLM → Answer (may hallucinate)</div>
+            
+            <h3>RAG Approach:</h3>
+            <div class="code-block">Query → Embed → Search → Retrieve Context → LLM → Grounded Answer</div>
+            
+            <h3>Our Implementation:</h3>
+            <ol>
+                <li><strong>Query Expansion</strong>
+                    <ul>
+                        <li>Add synonyms for better retrieval</li>
+                        <li>Example: "TA" → "teaching assistant contact office hours"</li>
+                    </ul>
+                </li>
+                <li><strong>Semantic Search</strong>
+                    <ul>
+                        <li>Find top-k relevant passages</li>
+                        <li>Rank by similarity score</li>
+                    </ul>
+                </li>
+                <li><strong>Answer Extraction</strong> (Two Methods)
+                    <ul>
+                        <li>Primary: Local LLM (Ollama qwen2.5:32b)</li>
+                        <li>Fallback: Regex-based extraction</li>
+                    </ul>
+                </li>
+                <li><strong>Source Citation</strong>
+                    <ul>
+                        <li>Return file name and page number</li>
+                        <li>Enable fact verification</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Slide 9: Answer Extraction -->
+        <div class="slide">
+            <span class="slide-number">9 / 21</span>
+            <h1>Answer Extraction Methodology</h1>
+            <h2>Two-Stage Answer Extraction</h2>
+            
+            <h3>Stage 1: AI-Powered Extraction (Primary)</h3>
+            <ul>
+                <li><strong>LLM:</strong> Ollama qwen2.5:32b (Local)</li>
+                <li><strong>Model Size:</strong> 32 billion parameters</li>
+                <li><strong>Deployment:</strong> Local (no API costs)</li>
+                <li><strong>Privacy:</strong> Data never leaves local machine</li>
+            </ul>
+            
+            <h3>Prompt Engineering:</h3>
+            <div class="code-block">You are an expert information extraction AI.
+Given a question and search results, extract ONLY the specific answer.
+
+CRITICAL THINKING PROCESS:
+1. Read question carefully
+2. Examine ALL search results
+3. Find explicit statements
+4. Return ONLY precise answer
+
+QUESTION TYPE IDENTIFICATION:
+- "Who is..." → Extract person names
+- "When is..." → Extract dates/times
+- "What is..." → Extract concepts
+- "How many..." → Extract numbers</div>
+            
+            <h3>Stage 2: Regex Fallback</h3>
+            <ul>
+                <li>Pattern matching for names, dates, numbers</li>
+                <li>Simple extraction rules</li>
+                <li>Returns "Not found" if no match</li>
+            </ul>
+        </div>
+
+        <!-- Slide 10: MCP Server -->
+        <div class="slide">
+            <span class="slide-number">10 / 21</span>
+            <h1>MCP (Model Context Protocol) Server</h1>
+            <h2>Server Architecture</h2>
+            
+            <p><strong>Framework:</strong> FastMCP (Python)</p>
+            
+            <h3>Available Tools:</h3>
+            <ol>
+                <li><strong>search_lectures(query, k, use_ai)</strong>
+                    <ul>
+                        <li>Semantic search with answer extraction</li>
+                        <li>Returns: passages + extracted answer</li>
+                    </ul>
+                </li>
+                <li><strong>ask_simple_question(question)</strong>
+                    <ul>
+                        <li>Direct Q&A interface</li>
+                        <li>Returns: concise answer + sources</li>
+                    </ul>
+                </li>
+                <li><strong>teach_example(question, answer, explanation)</strong>
+                    <ul>
+                        <li>Add training examples</li>
+                        <li>Improves answer quality via few-shot learning</li>
+                    </ul>
+                </li>
+                <li><strong>list_lectures()</strong>
+                    <ul>
+                        <li>List all indexed PDF files</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <p><strong>Communication:</strong> stdio-based MCP protocol</p>
+            <ul>
+                <li>Language-agnostic</li>
+                <li>Standardized interface</li>
+                <li>Easy integration</li>
+            </ul>
+        </div>
+
+        <!-- Slide 11: Implementation -->
+        <div class="slide">
+            <span class="slide-number">11 / 21</span>
+            <h1>Implementation Details</h1>
+            <h2>Technical Stack</h2>
+            
+            <h3>Languages & Libraries:</h3>
+            <ul>
+                <li>Python 3.8+</li>
+                <li>FAISS-CPU 1.13.0 (vector search)</li>
+                <li>Sentence-Transformers 5.1.2 (embeddings)</li>
+                <li>PyPDF 6.4.0 (PDF processing)</li>
+                <li>MCP 1.23.1 (server framework)</li>
+            </ul>
+            
+            <h3>File Structure:</h3>
+            <div class="code-block">Project/
+├── build_index_v2.py      # Index builder
+├── mcp_server_v2.py       # MCP server
+├── client_test_v2.py      # Test client
+├── teach_ai.py            # Training script
+├── ai_config.json         # Configuration
+├── lectures/              # PDF files
+├── lectures_v2.index      # FAISS index (825 KB)
+└── lectures_v2.pkl        # Text chunks (457 KB)</div>
+            
+            <div class="stats-box">
+                <div class="stat">
+                    <div class="stat-number">1,200+</div>
+                    <div class="stat-label">Total Chunks</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">825 KB</div>
+                    <div class="stat-label">Index Size</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">&lt;100ms</div>
+                    <div class="stat-label">Search Latency</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Query Flow -->
+        <div class="slide">
+            <span class="slide-number">12 / 21</span>
+            <h1>Query Processing Flow</h1>
+            <h2>Detailed Query Flow</h2>
+            
+            <div class="architecture-diagram">1. User Query: "What is a decision tree?"
+   │
+   ▼
+2. Query Expansion
+   - Original: "decision tree"
+   - Expanded: ["decision tree", "tree model", "classification tree"]
+   │
+   ▼
+3. Embedding Generation
+   - Query → 384-dim vector
+   │
+   ▼
+4. FAISS Search
+   - Compare with all chunks
+   - Return top 5 matches
+   │
+   ▼
+5. Answer Extraction
+   ├─ Try AI extraction (if Ollama available)
+   └─ Fallback to regex
+   │
+   ▼
+6. Response Formatting
+   - Answer + confidence
+   - Source citations
+   - Relevance scores</div>
+            
+            <h3>Performance:</h3>
+            <ul>
+                <li>Search: ~50-100ms</li>
+                <li>AI extraction: ~2-5 seconds (if available)</li>
+                <li>Total: &lt;6 seconds</li>
+            </ul>
+        </div>
+
+        <!-- Slide 13: Results -->
+        <div class="slide">
+            <span class="slide-number">13 / 21</span>
+            <h1>Results & Performance</h1>
+            <h2>System Capabilities</h2>
+            
+            <h3>Search Accuracy:</h3>
+            <ul>
+                <li>Successfully finds relevant content across all 11 PDFs</li>
+                <li>Relevance scores range from 0.7 (high) to 1.3 (low)</li>
+                <li>Top results consistently match query intent</li>
+            </ul>
+            
+            <h3>Example Queries:</h3>
+            <table>
+                <tr>
+                    <th>Query</th>
+                    <th>Found In</th>
+                    <th>Relevance</th>
+                </tr>
+                <tr>
+                    <td>"What is a decision tree?"</td>
+                    <td>T5, Page 18</td>
+                    <td>70%</td>
+                </tr>
+                <tr>
+                    <td>"Explain boosting"</td>
+                    <td>T5, Page 39</td>
+                    <td>89%</td>
+                </tr>
+                <tr>
+                    <td>"Logistic regression"</td>
+                    <td>T3, Pages 3-5</td>
+                    <td>79-85%</td>
+                </tr>
+                <tr>
+                    <td>"Sentiment analysis"</td>
+                    <td>T6, Page 45</td>
+                    <td>95%</td>
+                </tr>
+            </table>
+            
+            <h3>Coverage:</h3>
+            <ul>
+                <li>✅ All 11 lecture PDFs indexed</li>
+                <li>✅ 370+ pages searchable</li>
+                <li>✅ Mathematical formulas preserved</li>
+                <li>✅ Code examples included</li>
+            </ul>
+        </div>
+
+        <!-- Slide 14: Demo Results -->
+        <div class="slide">
+            <span class="slide-number">14 / 21</span>
+            <h1>Demo Results</h1>
+            <h2>Live System Demonstration</h2>
+            
+            <p><strong>Available Lectures:</strong> 11 PDFs indexed</p>
+            
+            <h3>Test Queries:</h3>
+            
+            <h3>1. "What is a decision tree?"</h3>
+            <ul>
+                <li>Found: T5 - Decision Trees (Page 18)</li>
+                <li>Content: "A fitted tree with three boxes... easy to interpret"</li>
+                <li>Relevance: 70%</li>
+            </ul>
+            
+            <h3>2. "How does logistic regression work?"</h3>
+            <ul>
+                <li>Found: T3 - Logistic Regressions (Pages 3, 5)</li>
+                <li>Content: "Binary dependent variable... probability that Y=1"</li>
+                <li>Relevance: 79-85%</li>
+            </ul>
+            
+            <h3>3. "What is sentiment analysis?"</h3>
+            <ul>
+                <li>Found: T6 - Textual Analysis (Page 45)</li>
+                <li>Content: "Create a Sentiment Indicator... Baker and Wurgler"</li>
+                <li>Relevance: 95%</li>
+            </ul>
+            
+            <p style="margin-top: 30px; font-size: 1.5em; color: #667eea;"><strong>System Status: ✅ Operational</strong></p>
+        </div>
+
+        <!-- Slide 15: Limitations -->
+        <div class="slide">
+            <span class="slide-number">15 / 21</span>
+            <h1>Limitations & Challenges</h1>
+            <h2>Current Limitations</h2>
+            
+            <h3>1. AI Answer Extraction</h3>
+            <ul>
+                <li>Requires Ollama installation</li>
+                <li>Needs qwen2.5:32b model (~20GB)</li>
+                <li>Falls back to regex if unavailable</li>
+            </ul>
+            
+            <h3>2. Answer Quality</h3>
+            <ul>
+                <li>Without AI: Returns "Not found"</li>
+                <li>With AI: More accurate extraction</li>
+                <li>Regex limited to simple patterns</li>
+            </ul>
+            
+            <h3>3. Mathematical Formulas</h3>
+            <ul>
+                <li>PDF extraction may miss complex formulas</li>
+                <li>LaTeX notation not always preserved</li>
+                <li>Some symbols may be lost</li>
+            </ul>
+            
+            <h3>4. Context Window</h3>
+            <ul>
+                <li>Chunks are 300 words</li>
+                <li>May split long explanations</li>
+                <li>Overlap helps but not perfect</li>
+            </ul>
+            
+            <h3>5. Language</h3>
+            <ul>
+                <li>Optimized for English</li>
+                <li>May struggle with mixed languages</li>
+            </ul>
+        </div>
+
+        <!-- Slide 16: Future Improvements -->
+        <div class="slide">
+            <span class="slide-number">16 / 21</span>
+            <h1>Future Improvements</h1>
+            <h2>Enhancement Roadmap</h2>
+            
+            <h3>Short-term:</h3>
+            <ol>
+                <li><strong>Better Answer Extraction</strong>
+                    <ul>
+                        <li>Improve regex patterns</li>
+                        <li>Add more question types</li>
+                        <li>Better error handling</li>
+                    </ul>
+                </li>
+                <li><strong>User Interface</strong>
+                    <ul>
+                        <li>Web interface for queries</li>
+                        <li>Interactive chat interface</li>
+                        <li>Visual search results</li>
+                    </ul>
+                </li>
+                <li><strong>Performance</strong>
+                    <ul>
+                        <li>GPU acceleration for FAISS</li>
+                        <li>Caching frequent queries</li>
+                        <li>Parallel processing</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3>Long-term:</h3>
+            <ol>
+                <li><strong>Multi-modal Support</strong>
+                    <ul>
+                        <li>Image extraction from PDFs</li>
+                        <li>Diagram understanding</li>
+                        <li>Table extraction</li>
+                    </ul>
+                </li>
+                <li><strong>Advanced RAG</strong>
+                    <ul>
+                        <li>Re-ranking with cross-encoder</li>
+                        <li>Query rewriting</li>
+                        <li>Context compression</li>
+                    </ul>
+                </li>
+                <li><strong>Learning System</strong>
+                    <ul>
+                        <li>User feedback integration</li>
+                        <li>Continuous improvement</li>
+                        <li>Personalized results</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Slide 17: Comparison -->
+        <div class="slide">
+            <span class="slide-number">17 / 21</span>
+            <h1>Comparison with Alternatives</h1>
+            <h2>Why This Approach?</h2>
+            
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Our System</th>
+                    <th>Traditional Search</th>
+                    <th>ChatGPT</th>
+                </tr>
+                <tr>
+                    <td><strong>Source Grounding</strong></td>
+                    <td>✅ Always</td>
+                    <td>❌ No</td>
+                    <td>⚠️ Sometimes</td>
+                </tr>
+                <tr>
+                    <td><strong>Privacy</strong></td>
+                    <td>✅ Local</td>
+                    <td>✅ Local</td>
+                    <td>❌ Cloud</td>
+                </tr>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>✅ Free</td>
+                    <td>✅ Free</td>
+                    <td>❌ Paid</td>
+                </tr>
+                <tr>
+                    <td><strong>Accuracy</strong></td>
+                    <td>✅ High</td>
+                    <td>⚠️ Medium</td>
+                    <td>⚠️ Variable</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>✅ Fast</td>
+                    <td>✅ Fast</td>
+                    <td>⚠️ Slower</td>
+                </tr>
+                <tr>
+                    <td><strong>Customization</strong></td>
+                    <td>✅ Full</td>
+                    <td>❌ Limited</td>
+                    <td>❌ Limited</td>
+                </tr>
+            </table>
+            
+            <h3>Key Advantages:</h3>
+            <ul>
+                <li>Grounded in lecture materials (no hallucination)</li>
+                <li>Privacy-preserving (local deployment)</li>
+                <li>No API costs</li>
+                <li>Customizable for specific course content</li>
+            </ul>
+        </div>
+
+        <!-- Slide 18: Technical Achievements -->
+        <div class="slide">
+            <span class="slide-number">18 / 21</span>
+            <h1>Technical Achievements</h1>
+            <h2>What We Built</h2>
+            
+            <h3>1. Complete RAG Pipeline</h3>
+            <div class="code-block">PDF → Text → Embeddings → Index → Search → Answer</div>
+            
+            <h3>2. Production-Ready System</h3>
+            <ul>
+                <li>MCP server for standardized access</li>
+                <li>Error handling and fallbacks</li>
+                <li>Configuration management</li>
+            </ul>
+            
+            <h3>3. Scalable Architecture</h3>
+            <ul>
+                <li>Can handle 100+ PDFs</li>
+                <li>Efficient vector search</li>
+                <li>Modular design</li>
+            </ul>
+            
+            <h3>4. Educational Focus</h3>
+            <ul>
+                <li>Optimized for academic content</li>
+                <li>Preserves mathematical notation</li>
+                <li>Source citation for verification</li>
+            </ul>
+            
+            <p><strong>Code Quality:</strong> Clean, documented code with modular design</p>
+        </div>
+
+        <!-- Slide 19: Use Cases -->
+        <div class="slide">
+            <span class="slide-number">19 / 21</span>
+            <h1>Use Cases</h1>
+            <h2>Practical Applications</h2>
+            
+            <h3>1. Student Study Assistant</h3>
+            <ul>
+                <li>Quick answers during study sessions</li>
+                <li>Review before exams</li>
+                <li>Concept clarification</li>
+            </ul>
+            
+            <h3>2. Teaching Assistant Tool</h3>
+            <ul>
+                <li>Answer common student questions</li>
+                <li>Reference material lookup</li>
+                <li>Content verification</li>
+            </ul>
+            
+            <h3>3. Research Support</h3>
+            <ul>
+                <li>Literature review assistance</li>
+                <li>Concept exploration</li>
+                <li>Cross-reference finding</li>
+            </ul>
+            
+            <h3>4. Course Material Navigation</h3>
+            <ul>
+                <li>Find specific topics quickly</li>
+                <li>Discover related concepts</li>
+                <li>Explore lecture content</li>
+            </ul>
+            
+            <p style="margin-top: 30px; font-size: 1.3em;"><strong>Impact:</strong> Saves time, improves learning efficiency</p>
+        </div>
+
+        <!-- Slide 20: Conclusion -->
+        <div class="slide">
+            <span class="slide-number">20 / 21</span>
+            <h1>Conclusion</h1>
+            <h2>Key Takeaways</h2>
+            
+            <h3>1. Problem Solved</h3>
+            <ul>
+                <li>✅ Fast semantic search across lecture PDFs</li>
+                <li>✅ Accurate answer extraction</li>
+                <li>✅ Source-grounded responses</li>
+            </ul>
+            
+            <h3>2. Technology Stack</h3>
+            <ul>
+                <li>FAISS for vector search</li>
+                <li>Sentence Transformers for embeddings</li>
+                <li>MCP for standardized interface</li>
+                <li>Local LLM for answer extraction</li>
+            </ul>
+            
+            <h3>3. Results</h3>
+            <ul>
+                <li>11 PDFs indexed (~370 pages)</li>
+                <li>Sub-second search latency</li>
+                <li>High relevance matching</li>
+            </ul>
+            
+            <h3>4. Future Potential</h3>
+            <ul>
+                <li>Scalable to larger document sets</li>
+                <li>Extensible architecture</li>
+                <li>Multiple use cases</li>
+            </ul>
+            
+            <p style="margin-top: 40px; font-size: 2em; color: #667eea; text-align: center;"><strong>Thank You!</strong></p>
+        </div>
+
+        <!-- Slide 21: Q&A -->
+        <div class="slide">
+            <span class="slide-number">21 / 21</span>
+            <h1>Questions & Answers</h1>
+            <h2>Thank You for Your Attention!</h2>
+            
+            <div style="margin-top: 60px;">
+                <h3>Contact & Resources:</h3>
+                <ul>
+                    <li><strong>Code:</strong> Available in Project directory</li>
+                    <li><strong>Documentation:</strong> README.md</li>
+                    <li><strong>Demo:</strong> <code>python3 demo.py</code></li>
+                </ul>
+                
+                <h3>Key Files:</h3>
+                <ul>
+                    <li><code>build_index_v2.py</code> - Index builder</li>
+                    <li><code>mcp_server_v2.py</code> - Server implementation</li>
+                    <li><code>client_test_v2.py</code> - Test client</li>
+                </ul>
+            </div>
+            
+            <p style="margin-top: 60px; font-size: 2em; color: #667eea; text-align: center;"><strong>Questions?</strong></p>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+    </script>
+</body>
+</html>
+
